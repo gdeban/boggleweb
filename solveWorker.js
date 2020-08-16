@@ -5,10 +5,6 @@ var progress;
 var countTopLevelCellsComplete;
 var iterations;
 
-function calcProgress() {
-
-}
-
 onmessage = function(e) {
     console.log("worker received msg: " + e);
     switch (e.data[0]) {
@@ -19,7 +15,12 @@ onmessage = function(e) {
         case "solve": {
             progress = 0;
             cells = e.data[1];
-            cells.flat().forEach(c => c.used = false);
+            cells.flat().forEach(c => {
+                if (c.value.length != 1 && c.value.length != 2) {
+                    throw "Cell value is invalid";
+                }
+                c.used = false
+            });
             foundWords = [];
             countTopLevelCellsComplete = 0;
             
